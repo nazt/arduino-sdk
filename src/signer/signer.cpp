@@ -125,12 +125,12 @@ static uint8_t value(uint8_t c, uint32_t* ret)
 		return c - '0';
 	}
 
-	if(c >= 'a' && c <= 'z')
+	if(c >= 'a' && c <= 'f')
 	{
 		return c - 'a' + 10;
 	}
 
-	if(c >= 'A' && c <= 'Z')
+	if(c >= 'A' && c <= 'F')
 	{
 		return c - 'A' + 10;
 	}
@@ -164,15 +164,16 @@ ResultCode Signer::hex2str(const uint8_t* hex, size_t hex_size, char* str, size_
 	return ResultCode::SUCCESS;
 }
 
-ResultCode Signer::str2hex(const char* str, uint8_t* hex, size_t size)
+ResultCode Signer::str2hex(const char* str, uint8_t* hex, size_t size, size_t strLength)
 {
 	size_t cur = 0;
 	uint32_t valid;
 	uint8_t high, low;
+	if (strLength == 0) { strLength = strlen(str); }
 
 	const char* it = str;
 	const char* begin = str;
-	const char* end = begin + strlen(str);
+	const char* end = begin + strLength;
 
 	/* Skip `0x` */
 	if(end - begin >= 2 && *begin == '0' && *(begin + 1) == 'x')
@@ -181,7 +182,7 @@ ResultCode Signer::str2hex(const char* str, uint8_t* hex, size_t size)
 	}
 
 	/* Check output buffer size */
-	if(size < (str + strlen(str) - it) / 2)
+	if(size < (str + strLength - it) / 2)
 	{
 		return ResultCode::ERROR_BAD_PARAMETER;
 	}

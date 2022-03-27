@@ -2,11 +2,38 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Unit tests - launch",
+            "name": "Unit tests: launch",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/tests/iotex_unit_tests",
-            // "args": [ "--gtest_filter=\"*.Transaction*\""],
+            "args": [
+                // "--gtest_filter=\"*.ReadContract*\""
+            ],
+            "cwd": "${workspaceFolder}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": false
+                },
+                {
+                    "description": "Enable all-exceptions",
+                    "text": "catch throw",
+                    "ignoreFailures": true
+                }
+            ],
+            "stopAtEntry": false
+        },
+        {
+            "name": "Unit tests: rebuild and launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/tests/iotex_unit_tests",
+            "args": [
+                // "--gtest_filter=\"*.ReadContract*\""
+            ],
             "cwd": "${workspaceFolder}",
             "MIMode": "gdb",
             "miDebuggerPath": "gdb",
@@ -23,21 +50,16 @@
                     "ignoreFailures": true
                 }
             ],
-            // "sourceFileMap": {
-            //     // "lookedSource": "actualSource"
-            // }
+            "stopAtEntry": false,
         },
         {
-            "name": "Unit tests - launch - clang++/lldb",
-            "type": "cppdbg",
+            "name": "Server fake: launch",
+            "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/build/tests/iotex_unit_tests",
-            "stopAtEntry": true,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "lldb",
-            "preLaunchTask": "Arduino: Build unit tests",
-        }
+            "program": "${workspaceFolder}/tools/server-fake/server_fake.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}/tools/server-fake",
+        },
     ]
 }
